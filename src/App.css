@@ -1,0 +1,18 @@
+.App {
+	padding: 30px;
+	display: flex;
+}
+
+.App > div {
+	margin-right: 50px;
+}
+.error {
+	outline: none;
+	border: 2px solid red;
+}
+.done {
+	opacity: 0.7;
+}
+.btn {
+	background-color: aquamarine;
+}
