@@ -3,120 +3,64 @@ import { v1 } from 'uuid';
 import './App.css';
 import { Todolist } from './Todolist';
 export type filterValue = 'all' | 'active' | 'completed';
-type TodoListType = {
-	id: string;
-	title: string;
-	filter: filterValue;
-};
 function App() {
-	//const [filter, setFilter] = useState<filterValue>('all');
+	const [filter, setFilter] = useState<filterValue>('all');
 	//
-	const todoList_1 = v1();
-	const todoList_2 = v1();
-	//
-	const [todoLists, setTodoLists] = useState<Array<TodoListType>>([
-		{ id: todoList_1, title: 'What to learn', filter: 'all' },
-		{ id: todoList_2, title: 'What to buy', filter: 'all' },
+	const [tasks, setTask] = useState([
+		{ id: v1(), title: 'HTML&CSS', isDone: true },
+		{ id: v1(), title: 'JS', isDone: true },
+		{ id: v1(), title: 'ReactJS', isDone: false },
+		{ id: v1(), title: 'Redux', isDone: false },
+		{ id: v1(), title: 'Git', isDone: false },
 	]);
-	const [tasks, setTask] = useState({
-		[todoList_1]: [
-			{ id: v1(), title: 'HTML&CSS', isDone: true },
-			{ id: v1(), title: 'JS', isDone: true },
-			{ id: v1(), title: 'ReactJS', isDone: false },
-			{ id: v1(), title: 'Redux', isDone: false },
-			{ id: v1(), title: 'Git', isDone: false },
-		],
-		[todoList_2]: [
-			{ id: v1(), title: 'bread', isDone: false },
-			{ id: v1(), title: 'milk', isDone: true },
-			{ id: v1(), title: 'chees', isDone: false },
-		],
-	});
-	// const [tasks, setTask] = useState([
-	// 	{ id: v1(), title: 'HTML&CSS', isDone: true },
-	// 	{ id: v1(), title: 'JS', isDone: true },
-	// 	{ id: v1(), title: 'ReactJS', isDone: false },
-	// 	{ id: v1(), title: 'Redux', isDone: false },
-	// 	{ id: v1(), title: 'Git', isDone: false },
-	// ]);
 	//
-	function changeChecked(id: string, bool: boolean, todoID: string) {
-		tasks[todoID] = tasks[todoID].map((t) =>
-			t.id === id ? { ...t, isDone: bool } : t
-		);
-		setTask({ ...tasks });
+	function changeChecked(id:string,bool:boolean) {
+		const newTask = tasks.map((t) => t.id === id ? {...t, isDone:bool} : t) 
+		setTask(newTask)
 	}
 	//
-	function addTask(v: string, todoID: string) {
+	function addTask(v: string) {
 		const newTask = { id: v1(), title: v, isDone: false };
-		tasks[todoID] = [newTask, ...tasks[todoID]];
-		setTask({ ...tasks });
+		const newtasks = [newTask,...tasks]
+		setTask(newtasks)
 	}
 	//
-	function addFilterBtn(f: filterValue, todoID: string) {
-		let todo = todoLists.map((tl) => {
-			if (tl.id === todoID) {
-				return { ...tl, filter: f };
-			} else {
-				return tl;
-			}
-		});
-		setTodoLists(todo);
+	function addFilterBtn(f: filterValue) {
+		setFilter(f);
 	}
 	//
-	function windowTask(tl: TodoListType) {
-		if (tl.filter === 'active') {
-			return tasks[tl.id].filter((f) => f.isDone === false);
+	function windowTask() {
+		if (filter === 'active') {
+			return tasks.filter((f) => f.isDone === false);
 		}
-		if (tl.filter === 'completed') {
-			return tasks[tl.id].filter((f) => f.isDone === true);
+		if (filter === 'completed') {
+			return tasks.filter((f) => f.isDone === true);
 		} else {
-			return tasks[tl.id];
+			return tasks;
 		}
 	}
-
 	//
-	function removeTask(idTask: string, todoID: string) {
-		tasks[todoID] = tasks[todoID].filter((f) => {
+	function removeTask(idTask: string) {
+		const newTask = tasks.filter((f) => {
 			if (f.id !== idTask) {
 				return true;
 			} else {
 				return false;
 			}
 		});
-		setTask({ ...tasks });
-	}
-	//
-	function removeTodo(id: string) {
-		let todoRemove = todoLists.filter((f) => {
-			if (f.id !== id) {
-				return true;
-			} else {
-				return false;
-			}
-		});
-		setTodoLists(todoRemove);
-		delete tasks[id];
+		setTask(newTask);
 	}
 	return (
 		<div className='App'>
-			{todoLists.map((tl) => {
-				const filterWindow = windowTask(tl);
-				return (
-					<Todolist
-						key={tl.id}
-						id={tl.id}
-						title={tl.title}
-						tasks={filterWindow}
-						removeTask={removeTask}
-						addFilterBtn={addFilterBtn}
-						addTask={addTask}
-						changeChecked={changeChecked}
-						filter={tl.filter}
-						removeTodo={removeTodo}
-					/>
-				);
-			})}
+			<Todolist
+				title='What to learn'
+				tasks={windowTask()}
+				removeTask={removeTask}
+				addFilterBtn={addFilterBtn}
+				addTask={addTask}
+				changeChecked={changeChecked}
+				filter={filter}
+			/>
 		</div>
 	);
 }
