@@ -3,7 +3,7 @@ import { v1 } from 'uuid';
 import './App.css';
 import { Todolist } from './Todolist';
 export type filterValue = 'all' | 'active' | 'completed';
-type todoListsType = {
+type todoListType = {
 	id: string;
 	title: string;
 	filter: string;
@@ -12,14 +12,11 @@ function App() {
 	//
 	const todoID_1 = v1();
 	const todoID_2 = v1();
-	const todoID_3 = v1();
 	//
-	const [todoLists, setTodoLists] = useState<Array<todoListsType>>([
-		{ id: todoID_1, title: 'What we learn', filter: 'all' },
-		{ id: todoID_2, title: 'What we buy', filter: 'all' },
-		{ id: todoID_3, title: 'What you like', filter: 'all' },
+	const [todoLists, setTodoLists] = useState<Array<todoListType>>([
+		{ id: todoID_1, title: 'What to learn', filter: 'all' },
+		{ id: todoID_2, title: 'What to buy', filter: 'all' },
 	]);
-	//
 	const [tasks, setTask] = useState({
 		[todoID_1]: [
 			{ id: v1(), title: 'HTML&CSS', isDone: true },
@@ -30,13 +27,8 @@ function App() {
 		],
 		[todoID_2]: [
 			{ id: v1(), title: 'bread', isDone: true },
-			{ id: v1(), title: 'milk', isDone: false },
-			{ id: v1(), title: 'cheps', isDone: true },
-		],
-		[todoID_3]: [
-			{ id: v1(), title: 'music', isDone: false },
-			{ id: v1(), title: 'cinema', isDone: true },
-			{ id: v1(), title: 'animal', isDone: false },
+			{ id: v1(), title: 'milk', isDone: true },
+			{ id: v1(), title: 'cheps', isDone: false },
 		],
 	});
 	//
@@ -66,7 +58,6 @@ function App() {
 	//
 
 	//
-
 	function removeTask(idTask: string, todoID: string) {
 		tasks[todoID] = tasks[todoID].filter((f) => {
 			if (f.id !== idTask) {
@@ -79,14 +70,14 @@ function App() {
 	}
 	//
 	function removeTodo(todoID: string) {
-		let remove = todoLists.filter((f) => {
+		let removeTodoList = todoLists.filter((f) => {
 			if (f.id !== todoID) {
 				return true;
 			} else {
 				return false;
 			}
 		});
-		setTodoLists(remove);
+		setTodoLists(removeTodoList);
 		delete tasks[todoID];
 	}
 	return (

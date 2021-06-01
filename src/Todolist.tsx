@@ -69,8 +69,8 @@ export function Todolist(props: PropsType) {
 	return (
 		<div>
 			<h3>
-				{props.title}{' '}
-				<button onClick={() => props.removeTodo(props.id)}>X</button>
+				{props.title}
+				 <button onClick={() => props.removeTodo(props.id)}>X</button>
 			</h3>
 			<div>
 				<input
