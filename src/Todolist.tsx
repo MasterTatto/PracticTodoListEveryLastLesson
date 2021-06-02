@@ -16,21 +16,19 @@ type PropsType = {
 	changeChecked: (id: string, bool: boolean, todoID: string) => void;
 	filter: string;
 	id: string;
-	removeTodo: (id: string) => void;
+	removeTodo:(id:string) => void
 };
 
 export function Todolist(props: PropsType) {
 	const liItem = props.tasks.map((t) => {
-		const removeTask = () => props.removeTask(t.id, props.id);
+		const removeTask = () => props.removeTask(t.id,props.id);
 		//
 		return (
 			<li className={t.isDone ? 'done' : ''}>
 				<input
 					type='checkbox'
 					checked={t.isDone}
-					onChange={(e) =>
-						props.changeChecked(t.id, e.currentTarget.checked, props.id)
-					}
+					onChange={(e) => props.changeChecked(t.id, e.currentTarget.checked,props.id)}
 				/>
 				<span>{t.title}</span>
 				<button onClick={removeTask}>X</button>
@@ -51,7 +49,7 @@ export function Todolist(props: PropsType) {
 	//
 	const addValueBtn = () => {
 		if (noSpace) {
-			props.addTask(noSpace, props.id);
+			props.addTask(noSpace,props.id);
 			setValue('');
 		} else {
 			setError(true);
@@ -60,7 +58,7 @@ export function Todolist(props: PropsType) {
 	//
 	const addValueEnter = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Enter' && noSpace) {
-			props.addTask(noSpace, props.id);
+			props.addTask(noSpace,props.id);
 			setValue('');
 		} else {
 			setError(true);
@@ -68,10 +66,7 @@ export function Todolist(props: PropsType) {
 	};
 	return (
 		<div>
-			<h3>
-				{props.title}
-				 <button onClick={() => props.removeTodo(props.id)}>X</button>
-			</h3>
+			<h3>{props.title} <button onClick={() => props.removeTodo(props.id)}>X</button></h3>
 			<div>
 				<input
 					className={error ? 'error' : ''}

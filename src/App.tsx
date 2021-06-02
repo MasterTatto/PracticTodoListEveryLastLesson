@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
+import { TLSSocket } from 'tls';
 import { v1 } from 'uuid';
 import './App.css';
 import { Todolist } from './Todolist';
 export type filterValue = 'all' | 'active' | 'completed';
-type todoListType = {
-	id: string;
-	title: string;
-	filter: string;
-};
 function App() {
 	//
 	const todoID_1 = v1();
 	const todoID_2 = v1();
 	//
-	const [todoLists, setTodoLists] = useState<Array<todoListType>>([
+	const [todoLists, setTodoLists] = useState([
 		{ id: todoID_1, title: 'What to learn', filter: 'all' },
 		{ id: todoID_2, title: 'What to buy', filter: 'all' },
 	]);
+	//
 	const [tasks, setTask] = useState({
 		[todoID_1]: [
 			{ id: v1(), title: 'HTML&CSS', isDone: true },
@@ -26,9 +23,9 @@ function App() {
 			{ id: v1(), title: 'Git', isDone: false },
 		],
 		[todoID_2]: [
+			{ id: v1(), title: 'cheeps', isDone: false },
 			{ id: v1(), title: 'bread', isDone: true },
-			{ id: v1(), title: 'milk', isDone: true },
-			{ id: v1(), title: 'cheps', isDone: false },
+			{ id: v1(), title: 'milk', isDone: false },
 		],
 	});
 	//
@@ -46,14 +43,14 @@ function App() {
 	}
 	//
 	function addFilterBtn(f: filterValue, todoID: string) {
-		let todoList = todoLists.map((tl) => {
-			if (tl.id === todoID) {
-				return { ...tl, filter: f };
+		const newWindow = todoLists.map((tlFilter) => {
+			if (tlFilter.id === todoID) {
+				return { ...tlFilter, filter: f };
 			} else {
-				return tl;
+				return tlFilter;
 			}
 		});
-		setTodoLists(todoList);
+		setTodoLists(newWindow);
 	}
 	//
 
@@ -70,15 +67,14 @@ function App() {
 	}
 	//
 	function removeTodo(todoID: string) {
-		let removeTodoList = todoLists.filter((f) => {
+		const remodeTodoList = todoLists.filter((f) => {
 			if (f.id !== todoID) {
 				return true;
 			} else {
 				return false;
 			}
 		});
-		setTodoLists(removeTodoList);
-		delete tasks[todoID];
+		setTodoLists(remodeTodoList)
 	}
 	return (
 		<div className='App'>
