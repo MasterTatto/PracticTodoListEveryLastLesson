@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TLSSocket } from 'tls';
 import { v1 } from 'uuid';
+import AddInputForm from './AddInputForm';
 import './App.css';
 import { Todolist } from './Todolist';
 export type filterValue = 'all' | 'active' | 'completed';
@@ -28,6 +29,13 @@ function App() {
 			{ id: v1(), title: 'milk', isDone: false },
 		],
 	});
+	//
+	function addTodoList(value: string) {
+		const todoListID = v1();
+		const newTodoList = { id: todoListID, title: value, filter: 'all' };
+		setTodoLists([newTodoList, ...todoLists]);
+		setTask({ ...tasks, [todoListID]: [] });
+	}
 	//
 	function changeChecked(id: string, bool: boolean, todoID: string) {
 		tasks[todoID] = tasks[todoID].map((t) =>
@@ -74,10 +82,24 @@ function App() {
 				return false;
 			}
 		});
-		setTodoLists(remodeTodoList)
+		setTodoLists(remodeTodoList);
+	}
+	//
+	function changeTaskTitle(id: string, title: string, todoID: string) {
+		tasks[todoID] = tasks[todoID].map((t) =>
+			t.id === id ? { ...t, title } : t
+		);
+		setTask({ ...tasks });
+	}
+	function changeTodoTitle(title: string, todoID: string) {
+		const change = todoLists.map((t) =>
+			t.id === todoID ? { ...t, title } : t
+		);
+		setTodoLists(change);
 	}
 	return (
 		<div className='App'>
+			<AddInputForm addItem={addTodoList} />
 			{todoLists.map((tl) => {
 				function windowTask() {
 					if (tl.filter === 'active') {
@@ -101,6 +123,8 @@ function App() {
 						changeChecked={changeChecked}
 						filter={tl.filter}
 						removeTodo={removeTodo}
+						changeTaskTitle={changeTaskTitle}
+						changeTodoTitle={changeTodoTitle}
 					/>
 				);
 			})}
