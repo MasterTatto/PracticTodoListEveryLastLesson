@@ -1,9 +1,24 @@
+import {
+	AppBar,
+	Button,
+	Container,
+	Grid,
+	IconButton,
+	Paper,
+	Toolbar,
+	Typography,
+} from '@material-ui/core';
+
 import React, { useState } from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import ButtonForm from './ButtonForm';
 import { TaskType, Todolist } from './Todolist';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
+import classes from '*.module.css';
 export type filterValue = 'all' | 'active' | 'completed';
+
 type TodoListsType = {
 	id: string;
 	title: string;
@@ -111,37 +126,82 @@ function App() {
 		setTodoLists(newTodo);
 	}
 	//
+
 	return (
 		<div className='App'>
-			<ButtonForm addItem={addTodoLists} />
-			{todoLists.map((tl) => {
-				function windowTask() {
-					if (tl.filter === 'active') {
-						return tasks[tl.id].filter((f) => f.isDone === false);
-					}
-					if (tl.filter === 'completed') {
-						return tasks[tl.id].filter((f) => f.isDone === true);
-					} else {
-						return tasks[tl.id];
-					}
-				}
-				return (
-					<Todolist
-						key={tl.id}
-						id={tl.id}
-						title={tl.title}
-						tasks={windowTask()}
-						removeTask={removeTask}
-						addFilterBtn={addFilterBtn}
-						addTask={addTask}
-						changeChecked={changeChecked}
-						filter={tl.filter}
-						removeTodo={removeTodo}
-						addNewTitle={addNewTitleTasks}
-						addNewTitleTodoLists={addNewTitleTodoLists}
-					/>
-				);
-			})}
+			<AppBar position='static'>
+				<Toolbar style={{ justifyContent: 'space-between' }}>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
+						<IconButton edge='start' color='inherit' aria-label='menu'>
+							<MenuIcon />
+						</IconButton>
+						<Typography variant='h6'>News</Typography>
+					</div>
+					<Button color='inherit'>Login</Button>
+				</Toolbar>
+			</AppBar>
+
+			<Container fixed>
+				<Grid
+					container
+					style={{
+						padding: '20px',
+						borderRadius: '20px',
+						backgroundColor: 'rgba(255, 255, 255, 0.9)',
+						maxWidth:'345px',
+						marginTop:'20px'
+					}}
+				>
+					<ButtonForm addItem={addTodoLists} />
+				</Grid>
+
+				<Grid container spacing={4} >
+					{todoLists.map((tl) => {
+						function windowTask() {
+							if (tl.filter === 'active') {
+								return tasks[tl.id].filter((f) => f.isDone === false);
+							}
+							if (tl.filter === 'completed') {
+								return tasks[tl.id].filter((f) => f.isDone === true);
+							} else {
+								return tasks[tl.id];
+							}
+						}
+
+						return (
+							<>
+								<Grid item>
+									<Paper
+										elevation={3}
+										style={{
+											padding: '20px',
+											paddingTop:'0',
+											borderRadius: '20px',
+											backgroundColor: 'rgba(255, 255, 255, 0.9)',
+											marginTop:'20px'
+										}}
+									>
+										<Todolist
+											key={tl.id}
+											id={tl.id}
+											title={tl.title}
+											tasks={windowTask()}
+											removeTask={removeTask}
+											addFilterBtn={addFilterBtn}
+											addTask={addTask}
+											changeChecked={changeChecked}
+											filter={tl.filter}
+											removeTodo={removeTodo}
+											addNewTitle={addNewTitleTasks}
+											addNewTitleTodoLists={addNewTitleTodoLists}
+										/>
+									</Paper>
+								</Grid>
+							</>
+						);
+					})}
+				</Grid>
+			</Container>
 		</div>
 	);
 }

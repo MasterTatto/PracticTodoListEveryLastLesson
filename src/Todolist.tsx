@@ -1,8 +1,17 @@
+import {
+	Button,
+	Checkbox,
+	Grid,
+	IconButton,
+	Typography,
+} from '@material-ui/core';
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { filterValue } from './App';
 import ButtonForm from './ButtonForm';
 import EditSpan from './EditSpan';
-
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { Delete } from '@material-ui/icons';
+//
 export type TaskType = {
 	id: string;
 	title: string;
@@ -33,15 +42,20 @@ export function Todolist(props: PropsType) {
 		//
 		return (
 			<li className={t.isDone ? 'done' : ''} key={t.id}>
-				<input
-					type='checkbox'
+				<Checkbox
+					name='checkedB'
+					color='primary'
 					checked={t.isDone}
 					onChange={(e) =>
 						props.changeChecked(t.id, e.currentTarget.checked, props.id)
 					}
 				/>
 				<EditSpan title={t.title} changeTitle={changeTitle} />
-				<button onClick={removeTask}>X</button>
+
+				<IconButton aria-label='delete' color='secondary' onClick={removeTask}>
+					<Delete />
+					{/* <DeleteForeverIcon  /> */}
+				</IconButton>
 			</li>
 		);
 	});
@@ -58,29 +72,38 @@ export function Todolist(props: PropsType) {
 		<div>
 			<h3>
 				<EditSpan title={props.title} changeTitle={editTodolist} />{' '}
-				<button onClick={() => props.removeTodo(props.id)}>X</button>
+				<IconButton
+					aria-label='delete'
+					color='primary'
+					onClick={() => props.removeTodo(props.id)}
+				>
+					<Delete />
+					{/* <DeleteForeverIcon  /> */}
+				</IconButton>
 			</h3>
 			<ButtonForm addItem={addTask} />
 			<ul>{liItem}</ul>
 			<div>
-				<button
-					className={props.filter === 'all' ? 'btn' : ''}
+				<Button
+					variant={props.filter === 'all' ? 'contained' : 'text'}
 					onClick={() => props.addFilterBtn('all', props.id)}
 				>
 					All
-				</button>
-				<button
-					className={props.filter === 'active' ? 'btn' : ''}
+				</Button>
+				<Button
+					color='primary'
+					variant={props.filter === 'active' ? 'contained' : 'text'}
 					onClick={() => props.addFilterBtn('active', props.id)}
 				>
 					Active
-				</button>
-				<button
-					className={props.filter === 'completed' ? 'btn' : ''}
+				</Button>
+				<Button
+					color='secondary'
+					variant={props.filter === 'completed' ? 'contained' : 'text'}
 					onClick={() => props.addFilterBtn('completed', props.id)}
 				>
 					Completed
-				</button>
+				</Button>
 			</div>
 		</div>
 	);

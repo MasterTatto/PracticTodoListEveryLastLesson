@@ -1,3 +1,5 @@
+import { Button, Icon, IconButton, TextField } from '@material-ui/core';
+import { Delete, TextFields } from '@material-ui/icons';
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 //
 type ButtonFormPropsType = {
@@ -36,13 +38,28 @@ function ButtonForm(props: ButtonFormPropsType) {
 	//
 	return (
 		<div>
-			<input
+			<TextField
+				id='outlined-basic'
+				label='Add item...'
+				variant='outlined'
 				className={error ? 'error' : ''}
+				size={'small'}
 				value={value}
 				onChange={addInputValue}
 				onKeyPress={addValueEnter}
+				error={error}
+				helperText = {error ? 'Incorrect value' : ''}
 			/>
-			<button onClick={addValueBtn}>+</button>
+
+			<Button
+				onClick={addValueBtn}
+				variant='contained'
+				color='primary'
+				//   className={classes.button}
+				endIcon={<Icon>send</Icon>}
+			>
+				send
+			</Button>
 		</div>
 	);
 }

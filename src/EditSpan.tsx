@@ -1,3 +1,4 @@
+import { TextField } from '@material-ui/core';
 import React, { useState } from 'react';
 type EditSpanPropsType = {
 	title: string;
@@ -17,11 +18,14 @@ function EditSpan(props: EditSpanPropsType) {
 		props.changeTitle(value);
 	}
 	return activeEdit ? (
-		<input
+		<TextField
+			id='standard-basic'
+			label='Type changes'
 			value={value}
 			onChange={(e) => setValue(e.currentTarget.value)}
 			autoFocus
 			onBlur={OffActiveEdit}
+			size={'small'}
 			onKeyPress={(e) => {
 				if (e.key === 'Enter') {
 					setactiveEdit(false);
