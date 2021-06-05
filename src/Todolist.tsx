@@ -1,9 +1,9 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
-import AddInputForm from './AddInputForm';
 import { filterValue } from './App';
-import ChangedSpan from './ChangedSpan';
-import ChangedSpanPropsType from './ChangedSpan';
-type TaskType = {
+import ButtonForm from './ButtonForm';
+import EditSpan from './EditSpan';
+
+export type TaskType = {
 	id: string;
 	title: string;
 	isDone: boolean;
@@ -19,8 +19,8 @@ type PropsType = {
 	filter: string;
 	id: string;
 	removeTodo: (id: string) => void;
-	changeTaskTitle: (id: string, title: string, todoID: string) => void;
-	changeTodoTitle:(title:string,id:string) => void
+	addNewTitle: (id: string, title: string, todoID: string) => void;
+	addNewTitleTodoLists: (id: string, title: string) => void;
 };
 
 export function Todolist(props: PropsType) {
@@ -28,7 +28,7 @@ export function Todolist(props: PropsType) {
 		const removeTask = () => props.removeTask(t.id, props.id);
 		//
 		function changeTitle(title: string) {
-			props.changeTaskTitle(t.id, title, props.id);
+			props.addNewTitle(t.id, title, props.id);
 		}
 		//
 		return (
@@ -40,27 +40,27 @@ export function Todolist(props: PropsType) {
 						props.changeChecked(t.id, e.currentTarget.checked, props.id)
 					}
 				/>
-				<ChangedSpanPropsType title={t.title} key={t.id} changeTitle={changeTitle}/>
+				<EditSpan title={t.title} changeTitle={changeTitle} />
 				<button onClick={removeTask}>X</button>
 			</li>
 		);
 	});
 	//
-	function addItem(value: string) {
-		props.addTask(value, props.id);
+	function addTask(title: string) {
+		props.addTask(title, props.id);
 	}
 	//
-	//
-	function changeTodoListTitle(title:string) {
-		props.changeTodoTitle(title,props.id)
+	function editTodolist(title: string) {
+		props.addNewTitleTodoLists(title, props.id);
 	}
+	//
 	return (
 		<div>
 			<h3>
-				<ChangedSpan title={props.title} changeTitle={changeTodoListTitle}/>
+				<EditSpan title={props.title} changeTitle={editTodolist} />{' '}
 				<button onClick={() => props.removeTodo(props.id)}>X</button>
 			</h3>
-			<AddInputForm addItem={addItem} />
+			<ButtonForm addItem={addTask} />
 			<ul>{liItem}</ul>
 			<div>
 				<button

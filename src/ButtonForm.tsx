@@ -1,8 +1,10 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
-type AddInputFormPropsType = {
-	addItem: (value: string) => void;
+//
+type ButtonFormPropsType = {
+	addItem: (title: string) => void;
 };
-function AddInputForm(props: AddInputFormPropsType) {
+//
+function ButtonForm(props: ButtonFormPropsType) {
 	const [value, setValue] = useState('');
 	//
 	const [error, setError] = useState(false);
@@ -31,6 +33,7 @@ function AddInputForm(props: AddInputFormPropsType) {
 			setError(true);
 		}
 	};
+	//
 	return (
 		<div>
 			<input
@@ -44,4 +47,4 @@ function AddInputForm(props: AddInputFormPropsType) {
 	);
 }
 
-export default AddInputForm;
+export default ButtonForm;
