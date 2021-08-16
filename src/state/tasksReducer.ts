@@ -1,9 +1,24 @@
 import {v1} from "uuid";
 import {TasksType} from "../App";
 // @ts-ignore
-import {ActionTypeAddTodoList, RemoveTodoList} from "./todoList-reducer";
+import {ActionTypeAddTodoList, RemoveTodoList, todoListID_1, todoListID_2} from "./todoListReducer";
 
 
+
+let initialState = {
+    // [todoListID_1]: [
+    //     {id: v1(), title: 'HTML&CSS', isDone: true},
+    //     {id: v1(), title: 'JS', isDone: true},
+    //     {id: v1(), title: 'ReactJS', isDone: false},
+    //     {id: v1(), title: 'Redux', isDone: false},
+    //     {id: v1(), title: 'Git', isDone: false},
+    // ],
+    // [todoListID_2]: [
+    //     {id: v1(), title: 'cheeps', isDone: false},
+    //     {id: v1(), title: 'milk', isDone: true},
+    //     {id: v1(), title: 'bread', isDone: false},
+    // ],
+}
 //
 export type ActionTypeRemoveTask = {
     type: 'REMOVE-TASK'
@@ -36,7 +51,7 @@ export type ActionType =
     | ActionTypeAddTodoList
     | RemoveTodoList
 //
-export const tasksReducer = (state: TasksType, action: ActionType): TasksType => {
+export const tasksReducer = (state: TasksType = initialState, action: ActionType): TasksType => {
     let stateCopy;
     let task;
     switch (action.type) {

@@ -1,15 +1,13 @@
 import {
 	Button,
 	Checkbox,
-	Grid,
 	IconButton,
-	Typography,
+
 } from '@material-ui/core';
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import React from 'react';
 import { filterValue } from './App';
 import ButtonForm from './ButtonForm';
 import EditSpan from './EditSpan';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { Delete } from '@material-ui/icons';
 //
 export type TaskType = {
